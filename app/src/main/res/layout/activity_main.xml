@@ -1,45 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
 
-    <Toolbar
-        android:id="@+id/dots_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:title="@string/app_name"
-        android:background="?attr/colorPrimary"/>
-
-
-    <edu.illinois.cs498.dots.DotsView
-            android:id="@+id/dots_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/oldPaper"
-            android:layout_weight="1"/>
-
-        <LinearLayout
+        <Toolbar
+            android:id="@+id/dots_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:title="@string/app_name"
+            android:background="?attr/colorPrimary"/>
 
-            <Button
-                android:id="@+id/color_selection_button"
-                android:layout_width="0dp"
+
+        <edu.illinois.cs498.dots.DotsView
+                android:id="@+id/dots_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@color/oldPaper"
+                android:layout_weight="1"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Color"/>
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/width_selection_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Width"/>
+                <Button
+                    android:id="@+id/color_selection_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Color"/>
 
-        </LinearLayout>
+                <Button
+                    android:id="@+id/width_selection_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Width"/>
 
-</LinearLayout>
+            </LinearLayout>
 
+    </LinearLayout>
+
+
+    <!-- Drawer items here -->
+    <ListView
+        android:id="@+id/drawer_list_view"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="?attr/colorPrimary" />
+
+</android.support.v4.widget.DrawerLayout>
