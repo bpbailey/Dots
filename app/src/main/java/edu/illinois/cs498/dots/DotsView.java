@@ -16,6 +16,10 @@ import java.util.HashMap;
  * Created by Administrator on 2/12/2016.
  */
 public class DotsView extends View implements View.OnTouchListener {
+    public static int SMALL_RADIUS = 10;
+    public static int MEDIUM_RADIUS = 20;
+    public static int LARGE_RADIUS = 40;
+    public static int AREA_RADIUS = 0;
 
     private Paint  mPaint;
     private Bitmap mBitmap;
@@ -47,7 +51,7 @@ public class DotsView extends View implements View.OnTouchListener {
     private void initDotsView() {
         mPaint = new Paint();
         mPaint.setStrokeCap(Paint.Cap.ROUND);
-        dotRadius = 10;
+        dotRadius = SMALL_RADIUS;
         pointerMap = new HashMap();
         setOnTouchListener(this);
      }
@@ -60,6 +64,13 @@ public class DotsView extends View implements View.OnTouchListener {
         mCanvas = new Canvas(mBitmap);
     }
 
+    public void setDotRadius(int r) {
+        dotRadius = r;
+    }
+
+    public void setColor(int c) {
+        mPaint.setColor(c);
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -88,7 +99,11 @@ public class DotsView extends View implements View.OnTouchListener {
                     y = event.getY(i);
                     Point last = (Point) pointerMap.get(id);
                     if (last != null) {
-                        mPaint.setStrokeWidth((float) event.getSize(i) * 1000);
+                        if (dotRadius == AREA_RADIUS) {
+                            mPaint.setStrokeWidth((float) event.getSize(i) * 1000);
+                        } else {
+                            mPaint.setStrokeWidth((float) dotRadius);
+                        }
                         mCanvas.drawLine(last.x, last.y, x, y, mPaint);
                     }
                     pointerMap.put(id, new Point((int) x, (int) y));

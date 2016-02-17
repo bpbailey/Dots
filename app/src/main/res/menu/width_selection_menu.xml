@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/small_menu_item"
+            android:title="Small"
+            android:checked="true"/>
+        <item android:id="@+id/medium_menu_item"
+            android:title="Medium"
+            android:checked="false"/>
+        <item android:id="@+id/large_menu_item"
+            android:title="Large"
+            android:checked="false"/>
+        <item android:id="@+id/area_menu_item"
+            android:title="Area"
+            android:checked="false"/>
+    </group>
+</menu>
