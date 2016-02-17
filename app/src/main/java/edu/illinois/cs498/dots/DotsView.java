@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 
+
 /**
  * Created by Administrator on 2/12/2016.
  */
@@ -71,7 +72,8 @@ public class DotsView extends View implements View.OnTouchListener {
         switch (action) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_POINTER_DOWN:
-                mCanvas.drawCircle(x, y, dotRadius, mPaint);
+                float radius = event.getSize(index) * 1000;
+                mCanvas.drawCircle(x, y, radius, mPaint);
                 invalidate();
                 break;
         }
