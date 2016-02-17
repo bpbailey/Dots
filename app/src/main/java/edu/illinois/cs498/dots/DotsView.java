@@ -4,11 +4,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-
+import java.util.HashMap;
 
 
 /**
@@ -20,6 +21,7 @@ public class DotsView extends View implements View.OnTouchListener {
     private Bitmap mBitmap;
     private Canvas mCanvas;
     private int dotRadius;
+    private HashMap pointerMap;
 
 
     public DotsView(Context context) {
@@ -44,7 +46,9 @@ public class DotsView extends View implements View.OnTouchListener {
 
     private void initDotsView() {
         mPaint = new Paint();
+        mPaint.setStrokeCap(Paint.Cap.ROUND);
         dotRadius = 10;
+        pointerMap = new HashMap();
         setOnTouchListener(this);
      }
 
@@ -66,16 +70,38 @@ public class DotsView extends View implements View.OnTouchListener {
         // Log.d("DEBUG", "Receiving touch event");
         int action = event.getActionMasked();
         int index = event.getActionIndex();
+        int id = event.getPointerId(index);
         float x = event.getX(index);
         float y = event.getY(index);
 
         switch (action) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_POINTER_DOWN:
-                float radius = event.getSize(index) * 1000;
-                mCanvas.drawCircle(x, y, radius, mPaint);
+                Point p = new Point((int)x, (int)y);
+                pointerMap.put(id, p);
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+                for (int i=0; i<event.getPointerCount(); ++i) {
+                    id = event.getPointerId(i);
+                    x = event.getX(i);
+                    y = event.getY(i);
+                    Point last = (Point) pointerMap.get(id);
+                    if (last != null) {
+                        mPaint.setStrokeWidth((float) event.getSize(i) * 1000);
+                        mCanvas.drawLine(last.x, last.y, x, y, mPaint);
+                    }
+                    pointerMap.put(id, new Point((int) x, (int) y));
+                }
                 invalidate();
                 break;
+
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_POINTER_UP:
+            case MotionEvent.ACTION_CANCEL:
+                pointerMap.remove(id);
+                break;
+
         }
         return true;
     }
