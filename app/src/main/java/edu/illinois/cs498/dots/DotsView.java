@@ -5,17 +5,20 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 
 /**
  * Created by Administrator on 2/12/2016.
  */
-public class DotsView extends View  {
+public class DotsView extends View implements View.OnTouchListener {
 
     private Paint  mPaint;
     private Bitmap mBitmap;
     private Canvas mCanvas;
+    private int dotRadius;
 
 
     public DotsView(Context context) {
@@ -40,6 +43,8 @@ public class DotsView extends View  {
 
     private void initDotsView() {
         mPaint = new Paint();
+        dotRadius = 10;
+        setOnTouchListener(this);
      }
 
 
@@ -56,5 +61,18 @@ public class DotsView extends View  {
         canvas.drawBitmap(mBitmap, 0, 0, mPaint);
     }
 
+    public boolean onTouch(View v, MotionEvent event) {
+        // Log.d("DEBUG", "Receiving touch event");
+        int action = event.getAction();
+        float x = event.getX();
+        float y = event.getY();
 
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                mCanvas.drawCircle(x, y, dotRadius, mPaint);
+                invalidate();
+                break;
+        }
+        return true;
+    }
 }
