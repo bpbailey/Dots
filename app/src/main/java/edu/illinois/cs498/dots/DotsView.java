@@ -63,12 +63,14 @@ public class DotsView extends View implements View.OnTouchListener {
 
     public boolean onTouch(View v, MotionEvent event) {
         // Log.d("DEBUG", "Receiving touch event");
-        int action = event.getAction();
-        float x = event.getX();
-        float y = event.getY();
+        int action = event.getActionMasked();
+        int index = event.getActionIndex();
+        float x = event.getX(index);
+        float y = event.getY(index);
 
         switch (action) {
             case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_POINTER_DOWN:
                 mCanvas.drawCircle(x, y, dotRadius, mPaint);
                 invalidate();
                 break;
