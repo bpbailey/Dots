@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/erase_the_view"
+        android:title="@string/erase_the_view"
+        app:showAsAction="ifRoom" />
+</menu>

@@ -72,6 +72,13 @@ public class DotsView extends View implements View.OnTouchListener {
         mPaint.setColor(c);
     }
 
+    public void eraseCanvas() {
+        mBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+        mCanvas = new Canvas(mBitmap);
+        invalidate();
+    }
+
+
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawBitmap(mBitmap, 0, 0, mPaint);

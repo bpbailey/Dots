@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Dots</string>
+    <string name="erase_the_view">Erase view</string>
 </resources>
