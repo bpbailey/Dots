@@ -3,6 +3,7 @@ package edu.illinois.cs498.dots;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.util.AttributeSet;
@@ -71,6 +72,19 @@ public class DotsView extends View implements View.OnTouchListener {
     public void setColor(int c) {
         mPaint.setColor(c);
     }
+
+    public void setColor(String s) {
+        if (s.equals("BLACK")) {
+            setColor(Color.BLACK);
+        } else if (s.equals("RED")) {
+            setColor(Color.RED);
+        } else if (s.equals("GREEN")) {
+            setColor(Color.GREEN);
+        } else if (s.equals("BLUE")) {
+            setColor(Color.BLUE);
+        }
+    }
+
 
     public void eraseCanvas() {
         mBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
