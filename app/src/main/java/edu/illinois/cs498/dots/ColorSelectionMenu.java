@@ -86,6 +86,8 @@ public class ColorSelectionMenu extends GestureDetector.SimpleOnGestureListener
                 dots.setColor(Color.BLUE);
                 cSelectionButton.setText("BLUE");
                 break;
+            default:
+                break;
         }
         return true;
     }

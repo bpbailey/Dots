@@ -137,6 +137,8 @@ public class DotsView extends View implements View.OnTouchListener {
             case MotionEvent.ACTION_CANCEL:
                 pointerMap.remove(id);
                 break;
+            default:
+                break;
 
         }
         return true;

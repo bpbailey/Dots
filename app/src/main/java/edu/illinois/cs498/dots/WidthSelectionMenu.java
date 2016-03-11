@@ -57,6 +57,8 @@ public class WidthSelectionMenu implements View.OnClickListener, PopupMenu.OnMen
                 dots.setDotRadius(DotsView.AREA_RADIUS);
                 wSelectionButton.setText("AREA");
                 break;
+            default:
+                break;
         }
         return true;
     }
