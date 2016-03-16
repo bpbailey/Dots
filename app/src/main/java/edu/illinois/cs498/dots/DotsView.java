@@ -52,9 +52,10 @@ public class DotsView extends View implements View.OnTouchListener {
     private void initDotsView() {
         mPaint = new Paint();
         mPaint.setStrokeCap(Paint.Cap.ROUND);
-        dotRadius = SMALL_RADIUS;
         pointerMap = new HashMap();
         setOnTouchListener(this);
+        setDotRadius(SMALL_RADIUS);
+        setColor(Color.BLACK);
      }
 
 
@@ -67,6 +68,7 @@ public class DotsView extends View implements View.OnTouchListener {
 
     public void setDotRadius(int r) {
         dotRadius = r;
+        mPaint.setStrokeWidth((float) dotRadius);
     }
 
     public void setColor(int c) {
@@ -122,8 +124,6 @@ public class DotsView extends View implements View.OnTouchListener {
                     if (last != null) {
                         if (dotRadius == AREA_RADIUS) {
                             mPaint.setStrokeWidth((float) event.getSize(i) * 1000);
-                        } else {
-                            mPaint.setStrokeWidth((float) dotRadius);
                         }
                         mCanvas.drawLine(last.x, last.y, x, y, mPaint);
                     }
