@@ -38,7 +38,9 @@ public class ColorSelectionMenu extends GestureDetector.SimpleOnGestureListener
     @Override
     public boolean onFling(MotionEvent event1, MotionEvent event2,
                            float velocityX, float velocityY) {
+        // check that it is mostly horizontal movement
         if (Math.abs(velocityX) >= Math.abs(velocityY)) {
+            // check left or right direction
             if (event1.getX() > event2.getX()) {
                 currentColorIndex++;
                 if (currentColorIndex >= colors.length) {
