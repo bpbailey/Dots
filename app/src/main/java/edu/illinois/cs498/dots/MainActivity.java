@@ -46,6 +46,22 @@ public class MainActivity extends Activity implements ListView.OnItemClickListen
         mDrawerListView.setAdapter(listAdapter);
     }
 
+    protected void onResume() {
+        super.onResume();
+        DotsView dots = (DotsView) findViewById(R.id.dots_view);
+        if (dots != null) {
+            dots.onResume();
+        }
+    }
+
+    protected void onPause() {
+        super.onPause();
+        DotsView dots = (DotsView) findViewById(R.id.dots_view);
+        if (dots != null) {
+            dots.onPause();
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

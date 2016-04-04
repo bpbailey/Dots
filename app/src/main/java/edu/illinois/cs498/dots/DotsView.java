@@ -27,35 +27,38 @@ public class DotsView extends View implements View.OnTouchListener {
     private Canvas mCanvas;
     private int dotRadius;
     private HashMap pointerMap;
+    private ShakeGestureTracker shaker;
 
 
     public DotsView(Context context) {
         super(context);
-        initDotsView();
+        initDotsView(context);
     }
 
     public DotsView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initDotsView();
+        initDotsView(context);
     }
 
     public DotsView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initDotsView();
+        initDotsView(context);
     }
 
     public DotsView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        initDotsView();
+        initDotsView(context);
     }
 
-    private void initDotsView() {
+    private void initDotsView(Context context) {
         mPaint = new Paint();
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         pointerMap = new HashMap();
         setOnTouchListener(this);
         setDotRadius(SMALL_RADIUS);
         setColor(Color.BLACK);
+        shaker = new ShakeGestureTracker(context, this);
+        shaker.onResume();
      }
 
 
@@ -64,6 +67,17 @@ public class DotsView extends View implements View.OnTouchListener {
         super.onSizeChanged(w, h, oldw, oldh);
         mBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mBitmap);
+    }
+
+    public void onResume() {
+        if (shaker != null) {
+            shaker.onResume();
+        }
+    }
+    public void onPause() {
+        if (shaker != null) {
+            shaker.onPause();
+        }
     }
 
     public void setDotRadius(int r) {
