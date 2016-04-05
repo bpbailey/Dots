@@ -41,18 +41,19 @@ public class ShakeGestureTracker implements SensorEventListener {
         mSensorManager = (SensorManager) mActivity.getSystemService(Context.SENSOR_SERVICE);
         if (mSensorManager != null) {
             mAccelSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            registerListeners();
         }
         state = 0;
         startTime = 0;
     }
 
-    protected void onResume() {
+    protected void registerListeners() {
         if (mSensorManager != null) {
             mSensorManager.registerListener(this, mAccelSensor, SensorManager.SENSOR_DELAY_UI);
         }
     }
 
-    protected void onPause() {
+    protected void unRegisterListeners() {
         if (mSensorManager != null) {
             mSensorManager.unregisterListener(this);
         }

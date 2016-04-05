@@ -27,6 +27,11 @@ public class DotsView extends View implements View.OnTouchListener {
     private Canvas mCanvas;
     private int dotRadius;
     private HashMap pointerMap;
+
+    // detects orientation of the device
+    private OrientationTracker orientation;
+
+    // tracker for detecting shakes
     private ShakeGestureTracker shaker;
 
 
@@ -57,8 +62,10 @@ public class DotsView extends View implements View.OnTouchListener {
         setOnTouchListener(this);
         setDotRadius(SMALL_RADIUS);
         setColor(Color.BLACK);
+
+        orientation = new OrientationTracker(context);
+
         shaker = new ShakeGestureTracker(context, this);
-        shaker.onResume();
      }
 
 
@@ -69,14 +76,20 @@ public class DotsView extends View implements View.OnTouchListener {
         mCanvas = new Canvas(mBitmap);
     }
 
-    public void onResume() {
+    public void registerSensorListeners() {
+        if (orientation != null) {
+            orientation.registerListeners();
+        }
         if (shaker != null) {
-            shaker.onResume();
+            shaker.registerListeners();
         }
     }
-    public void onPause() {
+    public void unRegisterSensorListeners() {
+        if (orientation != null) {
+            orientation.unRegisterListeners();
+        }
         if (shaker != null) {
-            shaker.onPause();
+            shaker.unRegisterListeners();
         }
     }
 
@@ -115,7 +128,11 @@ public class DotsView extends View implements View.OnTouchListener {
     }
 
     public boolean onTouch(View v, MotionEvent event) {
-        // Log.d("DEBUG", "Receiving touch event");
+        // terminate processing if pitch < 30
+        if (orientation.getPitch() < 30) {
+            return true;
+        }
+
         int action = event.getActionMasked();
         int index = event.getActionIndex();
         int id = event.getPointerId(index);
