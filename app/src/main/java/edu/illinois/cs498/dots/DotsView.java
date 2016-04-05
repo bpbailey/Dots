@@ -128,8 +128,8 @@ public class DotsView extends View implements View.OnTouchListener {
     }
 
     public boolean onTouch(View v, MotionEvent event) {
-        // terminate processing if pitch < 30
-        if (orientation.getPitch() < 30) {
+        // terminate processing if pitch > 30
+        if (orientation.getPitch() > 30) {
             return true;
         }
 

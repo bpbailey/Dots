@@ -5,7 +5,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 import android.widget.Toast;
 import java.util.Calendar;
 
@@ -14,16 +13,16 @@ import java.util.Calendar;
  * Created by Brian on 3/13/2016.
  */
 public class ShakeGestureTracker implements SensorEventListener {
-    // This is the min force to consider as a shake
+    // This is the min acceleration force to consider
     private static double SHAKE_MIN_THRESHOLD = 14.0;
 
-    // Number of consecutive "shakes" that must be detected
-    private static int SHAKE_NUMBER_OF_STATES = 10;
+    // Number of "shakes" that must be detected before recognizing a shake gesture
+    private static int SHAKE_NUMBER_OF_STATES = 8;
 
     // The time window in which the "shakes" must occur
     private static int SHAKE_MIN_TIME = 1000;
 
-    private Context mActivity;
+    private Context mContext;
     private SensorManager mSensorManager;
     private Sensor mAccelSensor;
     private int state;
@@ -32,13 +31,13 @@ public class ShakeGestureTracker implements SensorEventListener {
 
 
     public ShakeGestureTracker(Context context, DotsView view) {
-        mActivity = context;
+        mContext = context;
         dotsView = view;
         mSensorManager = null;
         mAccelSensor = null;
 
         // Get reference to the accelerometer
-        mSensorManager = (SensorManager) mActivity.getSystemService(Context.SENSOR_SERVICE);
+        mSensorManager = (SensorManager) mContext.getSystemService(Context.SENSOR_SERVICE);
         if (mSensorManager != null) {
             mAccelSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
             registerListeners();
@@ -67,25 +66,26 @@ public class ShakeGestureTracker implements SensorEventListener {
     private void trackShakeGesture(SensorEvent event) {
         double length = getVectorLength(event.values);
         if (state == 0) {
-            // is there enough motion to count as a 'shake'
-            if (length >= SHAKE_MIN_THRESHOLD) {
+            // is there enough acceleration force to count
+            if (length > SHAKE_MIN_THRESHOLD) {
                 ++state;
+                startTime = Calendar.getInstance().getTimeInMillis();
             } else {
                 state = 0;
             }
-            startTime = Calendar.getInstance().getTimeInMillis();
 
-            // there was enough motion to count as a shake
+          // there was enough motion to detect a shake gesture
         } else if (state >= SHAKE_NUMBER_OF_STATES) {
             onShakeDetected();
             state = 0;
 
-            // continue to track length of motion
+          // continue to track length of motion
         } else if (state > 0) {
             if ((Calendar.getInstance().getTimeInMillis() - startTime) > SHAKE_MIN_TIME) {
                 // it has taken too long, reset
                 state = 0;
-            } else if (length > SHAKE_NUMBER_OF_STATES) {
+            } else if (length > SHAKE_MIN_THRESHOLD) {
+                // otherwise, check if sufficient force was present to advance
                 ++state;
             }
         }
@@ -94,7 +94,7 @@ public class ShakeGestureTracker implements SensorEventListener {
 
     private void onShakeDetected() {
         dotsView.eraseCanvas();
-        Toast.makeText(mActivity, "Shake Gesture Detected", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "Shake Gesture Detected", Toast.LENGTH_SHORT).show();
     }
 
     private double getVectorLength(float [] vector) {

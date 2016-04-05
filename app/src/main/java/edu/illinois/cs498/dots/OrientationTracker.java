@@ -4,7 +4,6 @@ package edu.illinois.cs498.dots;
  * Created by Brian on 4/4/2016.
  */
 
-import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -12,7 +11,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.widget.TextView;
 
-import javax.xml.transform.dom.DOMResult;
 
 
 public class OrientationTracker implements SensorEventListener {
@@ -48,6 +46,7 @@ public class OrientationTracker implements SensorEventListener {
     }
 
     public void onSensorChanged(SensorEvent event) {
+        // Implement yaw, pitch, roll equations given in lecture
         double Ax = event.values[0];
         double Ay = event.values[1];
         double Az = event.values[2];
@@ -55,11 +54,19 @@ public class OrientationTracker implements SensorEventListener {
         double Ay2 = Ay * Ay;
         double Az2 = Az * Az;
 
-        yaw = Math.round((int)Math.toDegrees(Math.atan2(Ay, Ax)));
+        // Implement equations in the course lecture notes
         pitch = Math.round((int)Math.toDegrees(Math.atan2(Ay, Math.sqrt(Ax2 + Az2))));
         roll = Math.round((int)Math.toDegrees(Math.atan2(Ax, Az)));
 
-        print(null);
+        /* Only use this yaw calculation if Az is close to zero. Otherwise, use Android's
+        getRotationVector() followed by getOrientation(). These calls use the
+        accelerometer and magnetometer to correctly measure yaw. The calculation is
+        accurate but computationally more expensive.
+         */
+        yaw = Math.round((int)Math.toDegrees(Math.atan2(Ay, Ax)));
+
+
+        // print(null);
     }
 
     public int getYaw() {
