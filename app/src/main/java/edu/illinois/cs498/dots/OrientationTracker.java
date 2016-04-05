@@ -85,7 +85,7 @@ public class OrientationTracker implements SensorEventListener {
 
 
     public void print(TextView view){
-        String s = "YAW: " + Double.toString(yaw) + " PITCH: " + Double.toString(pitch) + " ROLL: " + Double.toString(roll);
+        String s = "YAW: " + Integer.toString(yaw) + " PITCH: " + Integer.toString(pitch) + " ROLL: " + Integer.toString(roll);
         if (view != null) {
             view.setText(s);
         } else {
