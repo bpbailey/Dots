@@ -56,7 +56,9 @@ public class OrientationTracker implements SensorEventListener {
 
         // Implement equations in the course lecture notes
         pitch = Math.round((int)Math.toDegrees(Math.atan2(Ay, Math.sqrt(Ax2 + Az2))));
-        roll = Math.round((int)Math.toDegrees(Math.atan2(Ax, Az)));
+
+        // Swap the sign to match Android framework. Only matters for interpretation.
+        roll = -Math.round((int)Math.toDegrees(Math.atan2(Ax, Az)));
 
         /* Only use this yaw calculation if Az is close to zero. Otherwise, use Android's
         getRotationVector() followed by getOrientation(). These calls use the
